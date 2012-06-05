@@ -36,3 +36,8 @@ What are the benefits?
 
 * You establish the connections to the databases
 * Absolutely nothing is done behind your back - not even index creation
+
+Dependencies
+============
+
+* `bson >= 0.3.3`
