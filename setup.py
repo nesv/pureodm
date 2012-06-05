@@ -20,6 +20,7 @@ SETTINGS = {'name': 'miniodm',
             'keywords': ['mongodb', 'odm'],
             'license': 'BSD',
             'packages': ['miniodm'],
+            'install_requires': ['bson>=0.3.3'],
 }
 
 setup(**SETTINGS)
