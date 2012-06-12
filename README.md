@@ -1,4 +1,4 @@
-miniodm
+pureodm
 =======
 
 A super-lightweight object-document mapper for Python and MongoDB.
@@ -14,7 +14,7 @@ Why another ODM?
 
 Basically, I am sick-n'-tired of other ODMs doing a ton of work behind the 
 scenes, and making some jobs harder than they need to be. One of the main
-reasons *miniodm* does not manage database connections for you, is because
+reasons *pureodm* does not manage database connections for you, is because
 that would duplicate the functionality provided by the pymongo driver, but
 at the same time abstract away from it, and make certain tasks more difficult.
 
@@ -27,7 +27,7 @@ reason or another.
 > no viable solution other than using just pymongo.
 
 Now, it should be mentioned that using the term "ODM" here, is a serious 
-misnomer. All *miniodm* does, is provide you with a way to declare your data
+misnomer. All *pureodm* does, is provide you with a way to declare your data
 structures, and from that, generate `dict`s that can be passed directly to any 
 of the methods of a `pymongo.collection.Collection` object.
 

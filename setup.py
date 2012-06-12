@@ -6,20 +6,20 @@ try:
 except ImportError:
     from distutils.core import setup
 
-from miniodm import __version__
+from pureodm import __version__
 
-SETTINGS = {'name': 'miniodm',
+SETTINGS = {'name': 'pureodm',
             'version': __version__,
             'description': 'A minimalist ODM for Python and MongoDB',
-            'url': 'http://github.com/indienick/miniodm',
-            'download_url': 'http://cloud.github.com/downloads/indienick/miniodm/miniodm-{0}.tar.gz'.format(__version__),
+            'url': 'http://github.com/indienick/pureodm',
+            'download_url': 'http://cloud.github.com/downloads/indienick/pureodm/miniodm-{0}.tar.gz'.format(__version__),
             'author': 'Nick Saika',
             'author_email': 'nicksaika@gmail.com',
             'maintainer': 'Nick Saika',
             'maintainer_email': 'nicksaika@gmail.com',
             'keywords': ['mongodb', 'odm'],
             'license': 'BSD',
-            'packages': ['miniodm'],
+            'packages': ['pureodm'],
             'install_requires': ['bson>=0.3.3'],
 }
 
