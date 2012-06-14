@@ -63,19 +63,14 @@
 	  After you get it installed (which should be relatively painless),
 	  all you need to do is...
 
-	  <pre>
-	    <code>
-	      import pureodm
+	  <pre><code>import pureodm
 
-	      class Bread(pureodm.Model):
-
-	          fields = {'grain': {'default': 'wheat',
-                                      'type': str,
-                                      'required': True},
-	                    'fiber_content': {'default': 1,
-                                              'type': int}}
-	    </code>
-	  </pre>
+class Bread(pureodm.Model):
+    fields = {'grain': {'default': 'wheat',
+                        'type': str,
+                        'required': True},
+              'fiber_content': {'default': 1,
+                                'type': int}}</code></pre>
 
 	  ...and that's pretty much it.
 	</p>
