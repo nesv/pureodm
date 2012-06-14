@@ -132,7 +132,7 @@ class Model(BaseModel):
             return update_spec
 
     @classmethod
-    def find_in(cls. collection, terms=None, **kwargs):
+    def find_in(cls, collection, terms=None, **kwargs):
         '''Simply maps the keyword arguments to a call to `collection.find()`,
         but will try to map the data from each document to the model.'''
 
