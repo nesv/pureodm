@@ -164,6 +164,20 @@ class Model(BaseModel):
             yield cls.map_from_result(i)
 
     @classmethod
+    def find_one_in(cls, collection, terms=None, **kwargs):
+        '''Practically identical to find_in(), but only returns a single
+        object, as opposed to a list.'''
+
+        if 'fields' in kwargs:
+            del(kwargs['fields'])
+
+        result = collection.find_one(terms, **kwargs)
+        if result is not None:
+            result = cls.map_from_result(result)
+
+        return result
+
+    @classmethod
     def map_from_result(cls, result):
         '''Creates (and returns) an instance of this model, and does its best
         to map the fields in "result" to attributes in this class.'''
