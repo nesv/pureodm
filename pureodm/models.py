@@ -5,7 +5,12 @@ class BaseModel:
 
     fields = {}
 
-    _changed = []
+    def __init__(self, **kwargs):
+        '''All this simple constructor does is populate the instance's
+        field values from any of the provided keyword arguments.'''
+
+        for field in kwargs:
+            self.__setattr__(field, kwargs[field])
 
     def __getattr__(self, attr):
         '''Allows obj.x type access to the fields of the model.'''
@@ -37,12 +42,30 @@ class BaseModel:
         assigned.'''
 
         if attr not in self.fields:
-            # Nope, she no exist.
+            # A quick catch for the "_id" field.
             #
-            raise AttributeError('No such field "{0}".'.format(attr))
+            if attr == '_id':
+                import bson.objectid
+                self.fields[attr] = {'type': bson.objectid.ObjectId,
+                                     'required': True,
+                                     'value': value}
+            else:
+                # Nope, she no exist.
+                #
+                raise AttributeError('No such field "{0}".'.format(attr))
         
         field_type = self.fields[attr]['type']
-        if isinstance(field_type, list) and not isinstance(value, list):
+        if isinstance(field_type, str) and isinstance(value, unicode):
+            # Special case: keep the unicode.
+            #
+            self.fields[attr]['value'] = value
+
+        elif isinstance(field_type, unicode) and isinstance(value, str):
+            # Another special case.
+            #
+            self.fields[attr]['value'] = unicode(value)
+
+        elif isinstance(field_type, list) and not isinstance(value, list):
             # The caller is trying to set the value of a list field to 
             # something other than a list.
             #
@@ -75,14 +98,8 @@ class BaseModel:
         else:
             # Nope; type mismatch.
             #
-            e = 'Wanted {0}, got {1}.'
-            raise ValueError(e.format(field_type, type(value)))
-            
-        # When all is good, append the name of the field we just set to the
-        # "_changed" list, so that we can generate an efficient update spec,
-        # later on.
-        #
-        self._changed.append(attr)
+            e = '{2}: Wanted {0}, got {1}.'
+            raise ValueError(e.format(field_type, type(value), attr))
 
 class EmbeddedModel(BaseModel):
 
@@ -97,9 +114,11 @@ class Model(BaseModel):
         # Check to make sure an "_id" field was set. If one was not defined,
         # and/or it just never had a value assigned, do so now.
         #
-        if self._id is None:
+        if '_id' not in self.fields:
             import bson.objectid
-            self._id = bson.objectid.ObjectId()
+            self.fields['_id'] = {'type': bson.objectid.ObjectId,
+                                  'value': bson.objectid.ObjectId(),
+                                  'required': True}
 
         # Run through the fields, and see if any of them that have a "default"
         # callable set have been assigned a value, and if they haven't, then
@@ -119,17 +138,15 @@ class Model(BaseModel):
 
         # Now, generate an update spec.
         #
-        update_spec = {'$set': dict([(i, self.fields[i]['value']) for i in self._changed])}
+        spec = dict([(i, self.fields[i]['value']) for i in self.fields])
 
         # Do the update.
         #
         if collection is not None:
-            collection.update({'_id': self._id}, update_spec, **kwargs)
-            self._changed = []
+            collection.save(spec, **kwargs)
 
         else:
-            self._changed = []
-            return update_spec
+            return spec
 
     @classmethod
     def find_in(cls, collection, terms=None, **kwargs):
@@ -142,4 +159,17 @@ class Model(BaseModel):
         if 'fields' in kwargs:
             del(kwargs['fields'])
 
-        raise NotImplementedError('TODO: Finish')
+        results = collection.find(terms, **kwargs)
+        for i in results:
+            yield cls.map_from_result(i)
+
+    @classmethod
+    def map_from_result(cls, result):
+        '''Creates (and returns) an instance of this model, and does its best
+        to map the fields in "result" to attributes in this class.'''
+
+        model = cls()
+        for field in result:
+            setattr(model, field, result[field])
+
+        return model
