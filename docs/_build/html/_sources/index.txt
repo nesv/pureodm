@@ -26,6 +26,7 @@ Contents:
    :maxdepth: 2
 
    tutorial
+   fields
 
 Indices and tables
 ==================
