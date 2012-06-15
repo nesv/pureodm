@@ -1,7 +1,7 @@
 # pureodm/models.py
 #
 
-class BaseModel:
+class BaseModel(object):
 
     fields = {}
 
