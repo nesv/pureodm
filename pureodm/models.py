@@ -125,10 +125,10 @@ class Model(BaseModel):
         #
         if collection is not None:
             collection.update({'_id': self._id}, update_spec, **kwargs)
-            self.changed = []
+            self._changed = []
 
         else:
-            self.changed = []
+            self._changed = []
             return update_spec
 
     @classmethod
