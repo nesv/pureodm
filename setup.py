@@ -20,7 +20,7 @@ SETTINGS = {'name': 'pureodm',
             'keywords': ['mongodb', 'odm'],
             'license': 'BSD',
             'packages': ['pureodm'],
-            'install_requires': ['bson>=0.3.3'],
+            'install_requires': ['pymongo>=2.4.1'],
 }
 
 setup(**SETTINGS)
