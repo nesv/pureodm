@@ -138,7 +138,7 @@ class Model(BaseModel):
 
         # Now, generate an update spec.
         #
-        spec = dict([(i, self.fields[i]['value']) for i in self.fields])
+        spec = dict([(i, self.fields[i]['value']) for i in self.fields if 'value' in self.fields[i]])
 
         # Do the update.
         #
