@@ -40,4 +40,12 @@ What are the benefits?
 Dependencies
 ============
 
-* `bson >= 0.3.3`
+* `pymongo (>=2.4.1)`
+
+Despite there having been almost an entire year since the last release of
+`pureodm`, the version of [PyMongo](https://pypi.python.org/pypi/pymongo) 
+does not need to change, and impose an artificial version number that 
+`pureodm` does not realistically make use of.
+
+That being said though, you should *really* be using the latest version of
+PyMongo.

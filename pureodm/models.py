@@ -11,37 +11,20 @@ class BaseModel(UserDict.IterableUserDict):
     def __init__(self, **kwargs):
         '''All this simple constructor does is populate the instance's
         field values from any of the provided keyword arguments.'''
+        self.data = {}
         for k in kwargs:
             self.__setitem__(k, kwargs[k])
 
-    # def __getitem__(self, key):
-    #     raise NotImplementedError()
-
-    # def __getattr__(self, attr):
-    #     '''Allows obj.x type access to the fields of the model.'''
-
-    #     if attr not in self.fields:
-    #         # Oops, it looks like that field does not exist!
-    #         #
-    #         raise AttributeError('No such field "{0}".'.format(attr))
-
-    #     elif 'value' not in self.fields[attr]:
-    #         # If the field has no value, then just return None.
-    #         #
-    #         return None
-
-    #     elif isinstance(self.fields[attr]['type'], list):
-    #         # If the field holds a list, then return a generator.
-    #         #
-    #         return (v for v in self.fields[attr]['value'])
-
-    #     else:
-    #         # Otherwise, just return whatever the field holds.
-    #         #
-    #         return self.fields[attr]['value']
+    def __getitem__(self, key):
+        '''
+        Returns the value of the requested field, and will decode the data in
+        the field if there is a codec associated with the field.
+        '''
+        return self.data[key]
 
     def __setitem__(self, key, value):
-        '''Validates the value being set, as well as passes it through a
+        '''
+        Validates the value being set, as well as passes it through a
         codec, if one is defined, for the field.'''
         if key not in self.fields:
             if key == '_id' and isinstance(value, bson.objectid.ObjectId):
@@ -126,16 +109,18 @@ class Model(BaseModel):
         # and/or it just never had a value assigned, do so now.
         #
         if '_id' not in self.fields:
-            self.fields['_id'] = {'type': bson.objectid.ObjectId,
-                                  'value': bson.objectid.ObjectId(),
-                                  'required': True}
+            self.fields['_id'] = {
+                'type': bson.objectid.ObjectId,
+                'required': True
+            }
+            self.__setitem__('_id', bson.objectid.ObjectId())
 
         # Run through the fields, and see if any of them that have a "default"
         # callable set have been assigned a value, and if they haven't, then
         # call the callable.
         #
         for i in self.fields:
-            if i not in self.data and 'default' in self.fields[i]
+            if i not in self.data and 'default' in self.fields[i]:
                 # No value has been set, but there is a default value.
                 #
                 self.__setitem__(i, self.fields[i]['default']())
