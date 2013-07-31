@@ -29,7 +29,7 @@ if __name__ == '__main__':
         new_password = u'supers3cret!'
         print 'changing password from "{0}" to "{1}"'.format(result.password,
                                                              new_password)
-        result.password = new_password
+        result['password'] = new_password
         result.save_to(users)
         print 'saved user'
 
