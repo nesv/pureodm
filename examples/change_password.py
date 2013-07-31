@@ -4,7 +4,7 @@ examples/change_password.py
 An small, but complete, example of creating a model.
 '''
 
-import pureodm
+import pureodm, pureodm.codecs
 import pymongo
 
 class User(pureodm.Model):
@@ -15,7 +15,8 @@ class User(pureodm.Model):
         },
         'password': {
             'type': unicode,
-            'required': True
+            'required': True,
+            'codec': pureodm.codecs.SHA1Codec
         }
     }
 

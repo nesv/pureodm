@@ -3,6 +3,7 @@
 
 import UserDict
 import bson.objectid
+from .codecs import Codec
 
 class BaseModel(UserDict.IterableUserDict):
 
@@ -20,6 +21,22 @@ class BaseModel(UserDict.IterableUserDict):
         Returns the value of the requested field, and will decode the data in
         the field if there is a codec associated with the field.
         '''
+        # Make sure the key exists.
+        if key not in self.fields:
+            raise KeyError('No such field "{0}".'.format(key))
+
+        # See if there is a codec associated with the field, and if so,
+        # then decode the value on its way out.
+        if 'codec' in self.fields[key] and self.fields[key]['codec'] is not None:
+            codec = self.fields[key]['codec']()
+            if isinstance(codec, Codec):
+                if self.data[key] is not None:
+                    return codec.decode(self.data[key])
+
+            else:
+                e = 'codec must be of type pureodm.codec.Codec, not {0}'
+                raise TypeError(e.format(type(codec)))
+
         return self.data[key]
 
     def __setitem__(self, key, value):
@@ -29,8 +46,8 @@ class BaseModel(UserDict.IterableUserDict):
         if key not in self.fields:
             if key == '_id' and isinstance(value, bson.objectid.ObjectId):
                 self.fields[key] = {'type': bson.objectid.ObjectId,
-                                    'required': True,
-                                    'value': value}
+                                    'required': True}
+                self.__setitem__(key, value)
 
             elif key != '_id' and not isinstance(value, bson.objectid.ObjectId):
                 e = 'Value must be of type bson.objectid.ObjectId.'
@@ -38,6 +55,18 @@ class BaseModel(UserDict.IterableUserDict):
         
         elif key not in self.fields:
             raise KeyError('No such field "{0}".'.format(key))
+
+        # Check to see if the field has a codec associated with it, and if it
+        # does, then encode the value.
+        if 'codec' in self.fields[key] and self.fields[key]['codec'] is not None:
+            codec = self.fields[key]['codec']()
+            if isinstance(codec, Codec):
+                if value is not None:
+                    value = codec.encode(value)
+
+            else:
+                e = 'codec must be of type pureodm.codec.Codec, not {0}'
+                raise TypeError(e.format(type(codec)))
 
         field_type = self.fields[key]['type']
         if isinstance(field_type, str) and isinstance(value, unicode):
@@ -73,7 +102,7 @@ class BaseModel(UserDict.IterableUserDict):
             #
             self.data[key] = value
 
-        elif isinstance(value, None):
+        elif value is None:
             # In the event we are nullifying the value of a field, we want
             # this to pass.
             self.data[key] = None

@@ -4,13 +4,21 @@ examples/user.py
 An small, but complete, example of creating a model.
 '''
 
-import pureodm
+import pureodm, pureodm.codecs
 import pymongo
 
 class User(pureodm.Model):
-    
-    fields = {'name': {'type': unicode, 'required': True},
-              'password': {'type': unicode, 'required': True}}
+    fields = {
+        'name': {
+            'type': unicode,
+            'required': True
+        },
+        'password': {
+            'type': unicode,
+            'required': True,
+            'codec': pureodm.codecs.SHA1Codec
+        }
+    }
 
 if __name__ == '__main__':
     connection = pymongo.Connection(host='localhost', port=27017)
