@@ -19,6 +19,6 @@ if __name__ == '__main__':
 
     for result in User.find_in(users, {'name': 'stinky'}):
         for field in result.fields:
-            print field, '\t', result[field]
-            
+            print('{0:>12}\t{1}'.format(field, result[field]))
+
     connection.close()

@@ -25,8 +25,8 @@ if __name__ == '__main__':
     users = database['users']
 
     user = User(name='stinky', password='none_of_yer_beeswax')
-    print user.save_to(None)
+    print(user.save_to(None))
     user.save_to(users)
-    print 'successfully saved user'
+    print('successfully saved user')
 
     connection.close()
