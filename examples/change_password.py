@@ -27,7 +27,7 @@ if __name__ == '__main__':
     result = User.find_one_in(users, {'name': 'stinky'})
     if result is not None:
         new_password = u'supers3cret!'
-        print 'changing password from "{0}" to "{1}"'.format(result.password,
+        print 'changing password from "{0}" to "{1}"'.format(result['password'],
                                                              new_password)
         result['password'] = new_password
         result.save_to(users)
