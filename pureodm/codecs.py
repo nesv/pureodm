@@ -11,7 +11,8 @@ data when it is read from the field.
 	and ``decode()`` methods can also work with lists.
 '''
 
-from base64 import b64encode
+from base64 import b64encode, b64decode
+from hashlib import sha1
 
 class Codec(object):
 	'''
@@ -24,6 +25,9 @@ class Codec(object):
 	to be implemented by its inheritors; failure to do so will result in the
 	method raising a :exc:`NotImplementedError`.
 	'''
+
+	def __init__(self):
+		pass
 
 	def encode(self, value):
 		'''Returns the encoded version of ``value``.'''
@@ -45,6 +49,9 @@ class Codec(object):
 class Base64Codec(Codec):
 	'''A very simple codec used for encoding data to, and decoding data from,
 	base64.'''
+
+	def __init__(self):
+		pass
 
 	def encode(self, value):
 		'''
@@ -71,6 +78,9 @@ class SHA1Codec(Codec):
 	Another simple codec that encodes a value, but does not (because it
 	cannot) decode it.
 	'''
+
+	def __init__(self):
+		pass
 
 	def encode(self, value):
 		'''

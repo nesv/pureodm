@@ -3,7 +3,7 @@
 
 import UserDict
 import bson.objectid
-from .. import Codec
+from .codecs import Codec
 
 class BaseModel(UserDict.IterableUserDict):
 
@@ -27,16 +27,15 @@ class BaseModel(UserDict.IterableUserDict):
 
         # See if there is a codec associated with the field, and if so,
         # then decode the value on its way out.
-        if 'codec' in self.fields[key]:
-            codec = self.fields[key]['codec']
-            if codec is not None:
-                if isinstance(codec, Codec):
-                    if value is not None:
-                        return codec().decode(value)
+        if 'codec' in self.fields[key] and self.fields[key]['codec'] is not None:
+            codec = self.fields[key]['codec']()
+            if isinstance(codec, Codec):
+                if self.data[key] is not None:
+                    return codec.decode(self.data[key])
 
-                else:
-                    e = 'codec must be of type pureodm.codec.Codec, not {0}'
-                    raise TypeError(e.format(type(codec)))
+            else:
+                e = 'codec must be of type pureodm.codec.Codec, not {0}'
+                raise TypeError(e.format(type(codec)))
 
         return self.data[key]
 
@@ -59,16 +58,15 @@ class BaseModel(UserDict.IterableUserDict):
 
         # Check to see if the field has a codec associated with it, and if it
         # does, then encode the value.
-        if 'codec' in self.fields[key]:
-            codec = self.fields[key]['codec']
-            if codec is not None:
-                if isinstance(codec, Codec):
-                    if value is not None:
-                        value = codec().encode(value)
+        if 'codec' in self.fields[key] and self.fields[key]['codec'] is not None:
+            codec = self.fields[key]['codec']()
+            if isinstance(codec, Codec):
+                if value is not None:
+                    value = codec.encode(value)
 
-                else:
-                    e = 'codec must be of type pureodm.codec.Codec, not {0}'
-                    raise TypeError(e.format(type(codec)))
+            else:
+                e = 'codec must be of type pureodm.codec.Codec, not {0}'
+                raise TypeError(e.format(type(codec)))
 
         field_type = self.fields[key]['type']
         if isinstance(field_type, str) and isinstance(value, unicode):
