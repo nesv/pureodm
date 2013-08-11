@@ -92,7 +92,8 @@ Table of Contents
 .. toctree::
    :maxdepth: 2
 
-      quick-tutorial
+   quick-tutorial
+   codecs
 
 Indices and tables
 ==================
