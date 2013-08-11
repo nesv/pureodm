@@ -100,7 +100,9 @@ Table of Contents
    :maxdepth: 2
 
    quick-tutorial
+   field-constraints
    codecs
+   contributors-and-development
 
 Indices and tables
 ==================
