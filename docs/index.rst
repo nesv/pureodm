@@ -89,9 +89,8 @@ however if you would like to learn more about it, I recommend
 Contributing
 ------------
 
-If you find PureODM useful, a tip would be muchly appreciated! You can leave
-a tip here, at the `PureODM community <https://www.gittip.com/for/pureodm/>`_
-on `Gittip <https://www.gittip.com/>`_.
+If you find PureODM useful, a tip on `Gittip <https://www.gittip.com/nesv/>`_ 
+would be muchly appreciated!
 
 
 Table of Contents

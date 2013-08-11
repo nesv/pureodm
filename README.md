@@ -54,5 +54,4 @@ Contributions
 =============
 
 If you would like to contribute to PureODM's development by leaving a small,
-monetary donation, you can do so for the
-[PureODM community](https://www.gittip.com/for/pureodm/) on Gittip.
+monetary donation, you can do so, on [Gittip](https://www.gittip.com/nesv/).
