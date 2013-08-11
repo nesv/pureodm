@@ -102,7 +102,7 @@ Table of Contents
    quick-tutorial
    field-constraints
    codecs
-   contributors-and-development
+   contributing
 
 Indices and tables
 ==================
