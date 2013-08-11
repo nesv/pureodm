@@ -86,6 +86,14 @@ however if you would like to learn more about it, I recommend
 `reading more about it <http://en.wikipedia.org/wiki/MIT_License>`_.
 
 
+Contributing
+------------
+
+If you find PureODM useful, a tip would be muchly appreciated! You can leave
+a tip here, at the `PureODM community <https://www.gittip.com/for/pureodm/>`_
+on `Gittip <https://www.gittip.com/>`_.
+
+
 Table of Contents
 =================
 

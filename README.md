@@ -49,3 +49,10 @@ does not need to change, and impose an artificial version number that
 
 That being said though, you should *really* be using the latest version of
 PyMongo.
+
+Contributions
+=============
+
+If you would like to contribute to PureODM's development by leaving a small,
+monetary donation, you can do so for the
+[PureODM community](https://www.gittip.com/for/pureodm/) on Gittip.
