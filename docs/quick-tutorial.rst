@@ -33,29 +33,9 @@ SQLAlchemy), you do not define your fields as individual class attributes. When
 you define your model in PureODM, you specify one class attribute: ``fields``.
 The ``fields`` attribute is a dictionary where each key is the name of the
 field in the document. The value-portion of each key-value pair in the
-dicitonary is another dictionary, holding the definition for your field.
+dicitonary is another dictionary, holding the constraints for each field.
 
-In your field's definition, you can use the following key-value pairs to define
-your field (you could also refer to them as "field constraints"):
+For more information on the various, available field constraints, browse through
+the :ref:`field-constraints` section.
 
-+-----------------+------------------------------------------------------------+
-| Constraint      | Explanation                                                |
-+=================+============================================================+
-| codec           | A reference to a class that inherits from                  |
-|                 | :py:class:`~pureodm.codecs.Codec`. Field codecs are used   |
-|                 | to encode values when they are set, and decode them when   |
-|                 | they are retrieved. For more details, please read the      |
-|                 | :ref:`codecs` section.                                     |
-+-----------------+------------------------------------------------------------+
-| default         | A default value that can be set for the field, should no   |
-|                 | other value be specified.                                  |
-+-----------------+------------------------------------------------------------+
-| required        | ``True`` or ``False``, indicating whether or not the field |
-|                 | is required to have a value set, before the model          |
-|                 | generates the document and commits it to the database.     |
-+-----------------+------------------------------------------------------------+
-| type            | A class that can be passed to :py:func:`isinstance()` for  |
-|                 | validating the value set for the field. This is the only   |
-|                 | field constraint that is required to be provided when      |
-|                 | defining the model.                                        |
-+-----------------+------------------------------------------------------------+
+Past this point, your model is ready to use!
